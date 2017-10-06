@@ -1,0 +1,47 @@
+Arguments: 
+  /usr/bin/nodejs /usr/bin/yarn
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+Yarn version: 
+  0.24.4
+
+Node version: 
+  7.8.0
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+    "name": "tasklist",
+    "version": "0.0.0",
+    "description": "Hello Expo!",
+    "author": "Mudasir",
+    "private": true,
+    "main": "main.js",
+    "dependencies": {
+      "expo": "17.0.0",
+      "react": "16.0.0-alpha.6",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz"
+      "axios": "^0.16.2",
+      "babel-polyfill": "^6.23.0",
+      "react-native-orientation": "^3.0.0",
+      "react-navigation": "^1.0.0-beta.11",
+      "react-redux": "^5.0.5",
+      "redux": "^3.7.2",
+      "redux-persist": "^4.8.2",
+      "redux-thunk": "^2.2.0",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-1.1.1.tgz: unexpected end of file
+      at Zlib._handle.onerror (zlib.js:355:17)

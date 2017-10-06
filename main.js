@@ -1,13 +1,32 @@
-import Expo from 'expo';
+import Expo,{Font} from 'expo';
 import React from 'react';
+import Tasklist from './components/TaskList';
 import { StyleSheet, Text, View } from 'react-native';
 
 class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up main.js to start working on your app!</Text>
-      </View>
+    async componentDidMount() {
+        await Font.loadAsync({
+            'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+            'Roboto-Light': require('./assets/fonts/Roboto-Light.ttf'),
+            'Roboto-LightItalic': require('./assets/fonts/Roboto-LightItalic.ttf'),
+
+        });
+        this.setState({fontLoaded: true});
+
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            fontLoaded: false,
+        }
+    }
+
+    render() {
+    return (this.state.fontLoaded ?
+            <View style={styles.container}>
+          <Tasklist/>
+      </View>:null
     );
   }
 }
@@ -15,7 +34,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#171c32',
     alignItems: 'center',
     justifyContent: 'center',
   },
