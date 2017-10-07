@@ -60,15 +60,15 @@ class TaskList extends React.Component {
 
     componentWillMount() {
 
-             axios.get('https://api.myjson.com/bins/i64i5')
-                 .then(res=>{
-                     const newObj = res.data.map((section, index) => {
-                         return { data: section.taskList, title: section.createdOn, key: Math.random()}
-                     })
-                     this.setState({list: newObj, refreshing: false});
-                     console.log(newObj[1]);
-                 })
-                 .catch(err=>{console.log('Error:' +err)});
+        axios.get('https://api.myjson.com/bins/i64i5')
+            .then(res=>{
+                const newObj = res.data.map((section, index) => {
+                    return { data: section.taskList, title: section.createdOn, key: Math.random()}
+                })
+                this.setState({list: newObj, refreshing: false});
+                console.log(newObj[1]);
+            })
+            .catch(err=>{console.log('Error:' +err)});
     }
 
 
@@ -91,10 +91,10 @@ class TaskList extends React.Component {
                     </View>
                     <View style={{display:'flex',flex:1,justifyContent:'center'}}>
                         <FontAwesome name="sliders" size={22} color="#fff"
-                                  style={{paddingHorizontal: 8}}/>
+                                     style={{paddingHorizontal: 8}}/>
                     </View>
 
-                    </View>
+                </View>
                 <ListView
                     contentContainerStyle={{flexDirection: 'row', justifyContent: 'space-between',maxHeight:55}}
                     dataSource={labelStore}
@@ -142,7 +142,7 @@ class TaskList extends React.Component {
                     </View>}
 
                     renderItem={
-                        ({item,index}) => <View style={[styles.tileContainer,{borderLeftColor:(index+1)%3!==0?((index+1)%2!==0?'#962d2d':'#7dc59f'):'#E8AE3A',borderLeftWidth:9}]}>
+                        ({item,index}) => <View style={[styles.tileContainer,{borderLeftColor: index % 3 === 0 ? '#962d2d': index % 3 === 1 ? '#7dc59f' :'#E8AE3A' ,borderLeftWidth:9}]}>
                             <TouchableOpacity style={styles.tile}
                                               onPress={()=>{}}
                             >
