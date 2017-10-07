@@ -1,9 +1,6 @@
 /**
  * Created by mak on 6/10/17.
  */
-/**
- * Created by graphicweave on 23/07/17.
- */
 import React from 'react';
 import {
     View,
@@ -11,7 +8,6 @@ import {
     Dimensions,
     TouchableOpacity,
     ListView,
-    RefreshControl,
     StatusBar,
     SectionList
 
@@ -45,7 +41,14 @@ class TaskList extends React.Component {
             page: 0,
             showLoader: false,
             endOfList: '',
-            list:''
+            list:[{
+                data:[],
+                title:''
+            },{                data:[],
+                title:''
+            },{                data:[],
+                title:''
+            }]
         };
         this.urlParam = '';
         this.id = 4;
@@ -53,40 +56,25 @@ class TaskList extends React.Component {
 
     filterList(id) {
         this.id=id;
-        this.state.labels.forEach(label => {
-            let colour;
-            if (label.id === id) {
-                colour = '#ffffff'
-            } else {
-                colour = '#cfcfcf'
-            }
-            if (this[label.id]) {
-                try {
-                    this[label.id].setNativeProps({
-                        color: colour
-                    })
-                } catch (err) {
-                    //
-                }
-            }
-        });
     }
 
     componentWillMount() {
 
              axios.get('https://api.myjson.com/bins/i64i5')
                  .then(res=>{
-                     this.setState({list:res.data[0].taskList,createdOn:res.data[0].createdOn,refreshing: false})
-                     console.log(res.data[0].createdOn);
+                     const newObj = res.data.map((section, index) => {
+                         return { data: section.taskList, title: section.createdOn, key: Math.random()}
+                     })
+                     this.setState({list: newObj, refreshing: false});
+                     console.log(newObj[1]);
                  })
-                 .catch(err=>{console.log(err)});
+                 .catch(err=>{console.log('Error:' +err)});
     }
 
 
 
     render() {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
-        const dataSource = ds.cloneWithRows(this.state.books, null);
         const labelStore = ds.cloneWithRows(this.state.labels, null);
         return (
             <View style={{flex: 1, backgroundColor: '#ffffff',marginTop:24}}>
@@ -130,7 +118,6 @@ class TaskList extends React.Component {
                                     {rowData.title.toUpperCase()}
                                 </Text>
                                 <View style={{backgroundColor:this.id===rowData.id?'#39ace5':'#323f6b',borderRadius:5,height:5,width:5,top:5,alignSelf:'center'}}>
-
                                 </View>
 
                             </TouchableOpacity>
@@ -145,16 +132,17 @@ class TaskList extends React.Component {
                         justifyContent: 'center',
                     }}
                     style={{flex:1}}
-                    sections={[ // homogenous rendering between sections
-                        {data:this.state.list,title:this.state.createdOn}
-                    ]}
-                    showsVerticalScrollIndicator={false}
+                    // keyExtractor={(item, index) => Math.random()}
                     disableVirtualization={false}
-                    renderSectionHeader={({section}) => <View style={{width:118,height:19,backgroundColor:'#fcf3e1',alignSelf:'center',
-                        borderRadius:3,marginTop:16,marginBottom:20,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={{color:'#666666',fontSize:10,fontFamily:'Roboto-Light'}}>{section.title}</Text></View>}
+                    sections={this.state.list}
+                    renderSectionHeader={({section}) => <View style={{width:118,height:19,backgroundColor:'#fcf3e1',
+                        alignSelf:'center', borderRadius:3,marginTop:16,
+                        marginBottom:20,justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{color:'#666666',fontSize:10,fontFamily:'Roboto-Light'}}>{section.title}</Text>
+                    </View>}
+
                     renderItem={
-                        ({item}) => <View style={[styles.tileContainer,{}]}>
+                        ({item,index}) => <View style={[styles.tileContainer,{borderLeftColor:(index+1)%3!==0?((index+1)%2!==0?'#962d2d':'#7dc59f'):'#E8AE3A',borderLeftWidth:9}]}>
                             <TouchableOpacity style={styles.tile}
                                               onPress={()=>{}}
                             >
